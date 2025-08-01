@@ -1,30 +1,57 @@
-Log Analysis & Reporting Tool
-This repository contains a simple Python script that serves as a command-line tool for analyzing log files. The script demonstrates proficiency in Python scripting, file handling, and regular expressions—all essential skills for tasks involving data processing and system monitoring.
+# Log Analysis & Reporting Tool
 
-Features
-Error & Warning Detection: Counts occurrences of "ERROR", "WARNING", and "INFO" in a given log file.
+This repository contains a simple Python script for analyzing log files via the command line. It’s useful for quickly finding and summarizing occurrences of key log messages (like `ERROR`, `WARNING`, `INFO`)—making it a practical tool for system monitoring, debugging, and more.
 
-Report Generation: Generates a clean, human-readable report summarizing the analysis.
+## Features
 
-Command-Line Interface: Designed to be run directly from the terminal with easy-to-use arguments.
+- **Keyword Detection:** Counts how many times `ERROR`, `WARNING`, and `INFO` (or your chosen keywords) appear in the log file.
+- **Report Generation:** Creates a clean, human-readable summary of the analysis.
+- **Command-Line Interface:** Run directly from the terminal with easy-to-use arguments.
+- **Custom Keywords:** Optionally specify your own keywords to search for.
 
-Usage
-Clone the repository:
+## Usage
 
-git clone https://github.com/Phvl-0/log-analysis-tool
-cd log-analysis-tool
+**1. Clone the repository:**
+```sh
+git clone https://github.com/Phvl-0/scripts_projs
+cd scripts_projs
+```
 
-Run the script:
+**2. Run the script:**
+```sh
+python3 log_analyzer.py <log_file_path> [output_file_path] [KEYWORD1 KEYWORD2 ...]
+```
+- `<log_file_path>`: Path to the log file you want to analyze (**required**)
+- `[output_file_path]`: Optional path to save the generated report (defaults to `analysis_report.txt`)
+- `[KEYWORD1 KEYWORD2 ...]`: Optional list of keywords to search for (defaults to `ERROR`, `WARNING`, `INFO`)
 
-python3 log_analyzer.py <log_file_path> [output_file_path]
+**Example:**
+```sh
+python3 log_analyzer.py server.log report.txt ERROR WARNING
+```
+This will analyze `server.log` for `ERROR` and `WARNING` messages and save the summary to `report.txt`.
 
-<log_file_path>: The path to the log file you want to analyze (required).
+## Sample Output
 
-[output_file_path]: An optional path to save the generated report. If not provided, it defaults to analysis_report.txt.
+```
+Log Analysis Report
+Total lines: 100
+Lines with keyword(s): 40 (40.00%)
+ERROR: 15 (15.00% of all lines)
+WARNING: 25 (25.00% of all lines)
+INFO: 10 (10.00% of all lines)
+```
 
-Example
-To analyze a log file named server.log and save the report as report.txt, you would run:
+## Requirements
 
-python3 log_analyzer.py server.log report.txt
+- Python 3.x
 
-This will create report.txt with a summary of the errors, warnings, and info messages found in server.log.
+## Why Use This Tool?
+
+- Quickly summarize large log files.
+- Instantly spot errors and warnings.
+- Useful for system admins, developers, security teams, and support.
+
+---
+
+*Feel free to fork or contribute! If you find it useful, star the repo or share feedback.*
