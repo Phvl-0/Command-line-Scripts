@@ -1,12 +1,16 @@
-# scripts_projs
+# *CLI Scripts*
 
 A collection of useful command-line scripts for everyday system tasks, automation, and log analysis. This repository is designed as a toolbox for quick solutions to common problems.
 
 ## Contents
 
-- [log_analyzer.py](#log_analyzerpy) — Analyze log files for errors, warnings, and info.
-- [cli_task_manager.py](#cli_task_managerpy) — Manage your tasks directly from the command line.
-- [system_maintenance.sh](#system_maintenancesh) — Automate routine system maintenance operations.
+- [log_analyzer.py](#log-analysis--reporting-tool)) — Analyze log files for errors, warnings, and info.
+- [cli_task_manager.py](#cli-task-manager) — Manage your tasks directly from the command line.
+- [system_maintenance.sh](#system-automation--maintenance-script) — Automate routine system maintenance operations.
+
+
+
+
 
 ---
 
@@ -67,6 +71,17 @@ INFO: 10 (10.00% of all lines)
 ---
 
 *Feel free to fork or contribute! If you find it useful, star the repo or share feedback.*
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -167,32 +182,55 @@ Let me know if you want further customization, screenshots, or details!
 
 ---
 
-## system_maintenance.sh
 
-A shell script that automates common system cleanup and maintenance operations (e.g., updating packages, clearing caches, etc.).
 
-**Usage:**
-```sh
-bash system_maintenance.sh
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# System Automation & Maintenance Script
+
+Automates essential maintenance tasks for Debian/Ubuntu-based systems.
+
+## Features
+- Updates package lists and upgrades all packages (`apt-get update` & `apt-get upgrade`)
+- Cleans up unused packages and log files
+- Backs up a specified directory (`/var/log` by default) to `/tmp` with a timestamp
+
+## Usage
+
+```bash
+chmod +x system_maintenance.sh
+sudo ./system_maintenance.sh
 ```
-Run as root or with necessary permissions as required.
 
----
+## Customization
+
+- To change the directory to back up, edit `BACKUP_DIR` in the script.
+- To change the backup destination, edit `BACKUP_DEST`.
 
 ## Requirements
 
-- Python 3.x (for Python scripts)
-- Bash (for shell script)
-- Appropriate permissions for system scripts
+- Linux system with apt package manager
+- Run as root (`sudo` required)
 
-## Contribution
+## Output
 
-Feel free to fork, suggest improvements, or submit pull requests!
+- Backup file created in `/tmp` named like `system_backup_YYYY-MM-DD_HH-MM-SS.tar.gz`
 
-## License
+## Notes
 
-This project is open source under the MIT License.
+- Old logs (`/var/log/*.gz`) are deleted as part of cleanup.
+- Script must be run with sudo for all operations.
 
 ---
-
-```
