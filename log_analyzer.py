@@ -14,6 +14,7 @@
 
 import sys
 import re
+import time
 from collections import Counter
 
 def analyze_log_file(log_file_path, keywords):
@@ -72,7 +73,7 @@ def generate_report(summary, keywords, output_file_path):
     """
     with open(output_file_path, 'w') as file:
         file.write("=========================================\n")
-        file.write("        Log Analysis Report (Enhanced)\n")
+        file.write("        Log Analysis Report \n")
         file.write("=========================================\n\n")
         if summary:
             file.write(f"Total lines: {summary['total_lines']}\n")
@@ -104,10 +105,16 @@ def main():
     keywords = keyword_args if keyword_args else ["ERROR", "WARNING", "INFO"]
 
     print(f"Analyzing log file: {log_file} for keywords: {', '.join(keywords)}")
+    time.sleep(1) 
+
+    print("Counting keywords...")
+    time.sleep(2) 
+
     summary = analyze_log_file(log_file, keywords)
 
     if summary:
-        print("Analysis complete. Generating report...")
+        print("Analysis complete! Generating report...")
+        time.sleep(3) 
         generate_report(summary, keywords, output_file)
 
 if __name__ == "__main__":
