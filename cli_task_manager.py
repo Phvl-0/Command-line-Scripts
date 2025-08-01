@@ -10,89 +10,131 @@
 
 import os
 import json
+from uuid import uuid4
 
 # --- Constants ---
-TASKS_FILE = "tasks.json"
+TASKS_FILE = os.getenv("TASKS_FILE", "tasks.json")
 
-# --- Functions ---
+# --- Task Operations ---
 
 def load_tasks():
     """Loads tasks from a JSON file."""
     if os.path.exists(TASKS_FILE):
-        with open(TASKS_FILE, 'r') as file:
-            return json.load(file)
+        try:
+            with open(TASKS_FILE, 'r') as file:
+                return json.load(file)
+        except Exception as e:
+            print(f"Error loading tasks: {e}")
+            return []
     return []
 
 def save_tasks(tasks):
     """Saves tasks to a JSON file."""
-    with open(TASKS_FILE, 'w') as file:
-        json.dump(tasks, file, indent=4)
+    try:
+        with open(TASKS_FILE, 'w') as file:
+            json.dump(tasks, file, indent=4)
+    except Exception as e:
+        print(f"Error saving tasks: {e}")
 
 def add_task(tasks):
     """Adds a new task."""
-    task_description = input("Enter a new task: ")
-    if task_description:
-        new_task = {
-            "id": len(tasks) + 1,
-            "description": task_description,
-            "completed": False
-        }
-        tasks.append(new_task)
-        save_tasks(tasks)
-        print(f"Task '{task_description}' added.")
-    else:
+    task_description = input("Enter a new task: ").strip()
+    if not task_description:
         print("Task cannot be empty.")
+        return
+
+    new_task = {
+        "id": str(uuid4()),
+        "description": task_description,
+        "completed": False
+    }
+    tasks.append(new_task)
+    save_tasks(tasks)
+    print(f"Task '{task_description}' added.")
 
 def view_tasks(tasks):
     """Displays all tasks."""
     if not tasks:
         print("No tasks found.")
         return
-    
+
     print("\n======================================")
     print("           Your Tasks")
     print("======================================")
-    for task in tasks:
+    for i, task in enumerate(tasks, 1):
         status = "[DONE]" if task["completed"] else "[ ]"
-        print(f"{status} {task['id']}. {task['description']}")
+        print(f"{status} {i}. {task['description']} (ID: {task['id']})")
     print("======================================")
-    
+
+def find_task_by_id(tasks, task_id):
+    for task in tasks:
+        if task["id"] == task_id:
+            return task
+    return None
+
 def mark_complete(tasks):
     """Marks a task as complete."""
     view_tasks(tasks)
-    try:
-        task_id = int(input("Enter the ID of the task to mark as complete: "))
-        found = False
-        for task in tasks:
-            if task["id"] == task_id:
-                task["completed"] = True
-                found = True
-                break
-        
-        if found:
-            save_tasks(tasks)
-            print(f"Task {task_id} marked as complete.")
+    task_id = input("Enter the ID of the task to mark as complete: ").strip()
+    task = find_task_by_id(tasks, task_id)
+    if task:
+        if task["completed"]:
+            print("Task is already completed.")
         else:
-            print(f"Task with ID {task_id} not found.")
+            task["completed"] = True
+            save_tasks(tasks)
+            print("Task marked as complete.")
+    else:
+        print("Task ID not found.")
 
-    except ValueError:
-        print("Invalid input. Please enter a number.")
-    except Exception as e:
-        print(f"An error occurred: {e}")
+def delete_task(tasks):
+    """Deletes a task by ID."""
+    view_tasks(tasks)
+    task_id = input("Enter the ID of the task to delete: ").strip()
+    task = find_task_by_id(tasks, task_id)
+    if task:
+        tasks.remove(task)
+        save_tasks(tasks)
+        print("Task deleted.")
+    else:
+        print("Task ID not found.")
+
+def edit_task(tasks):
+    """Edit a task's description."""
+    view_tasks(tasks)
+    task_id = input("Enter the ID of the task to edit: ").strip()
+    task = find_task_by_id(tasks, task_id)
+    if task:
+        new_desc = input("Enter the new description: ").strip()
+        if new_desc:
+            task["description"] = new_desc
+            save_tasks(tasks)
+            print("Task updated.")
+        else:
+            print("Description cannot be empty.")
+    else:
+        print("Task ID not found.")
+
+# --- Main Menu ---
 
 def main_menu():
     """Displays the main menu and handles user input."""
     tasks = load_tasks()
-    
+
+    menu = (
+        "\n--- CLI Task Manager ---\n"
+        "1. Add a new task\n"
+        "2. View all tasks\n"
+        "3. Mark a task as complete\n"
+        "4. Edit a task\n"
+        "5. Delete a task\n"
+        "6. Exit\n"
+    )
+
     while True:
-        print("\n--- CLI Task Manager ---")
-        print("1. Add a new task")
-        print("2. View all tasks")
-        print("3. Mark a task as complete")
-        print("4. Exit")
-        
-        choice = input("Enter your choice: ")
-        
+        print(menu)
+        choice = input("Enter your choice (1-6): ").strip()
+
         if choice == '1':
             add_task(tasks)
         elif choice == '2':
@@ -100,12 +142,15 @@ def main_menu():
         elif choice == '3':
             mark_complete(tasks)
         elif choice == '4':
+            edit_task(tasks)
+        elif choice == '5':
+            delete_task(tasks)
+        elif choice == '6':
             print("Exiting...")
             break
         else:
-            print("Invalid choice. Please enter a number between 1 and 4.")
+            print("Invalid choice. Please enter a number between 1 and 6.")
 
 # --- Main script execution ---
 if __name__ == "__main__":
     main_menu()
-
