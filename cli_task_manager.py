@@ -15,6 +15,10 @@ from uuid import uuid4
 # --- Constants ---
 TASKS_FILE = os.getenv("TASKS_FILE", "tasks.json")
 
+def clear_screen():
+    """Clears the terminal screen."""
+    os.system('cls' if os.name == 'nt' else 'clear')
+
 # --- Task Operations ---
 
 def load_tasks():
@@ -38,9 +42,11 @@ def save_tasks(tasks):
 
 def add_task(tasks):
     """Adds a new task."""
+    clear_screen()
     task_description = input("Enter a new task: ").strip()
     if not task_description:
         print("Task cannot be empty.")
+        input("Press Enter to continue...")
         return
 
     new_task = {
@@ -51,11 +57,14 @@ def add_task(tasks):
     tasks.append(new_task)
     save_tasks(tasks)
     print(f"Task '{task_description}' added.")
+    input("Press Enter to continue...")
 
 def view_tasks(tasks):
     """Displays all tasks."""
+    clear_screen()
     if not tasks:
         print("No tasks found.")
+        input("Press Enter to continue...")
         return
 
     print("\n======================================")
@@ -65,6 +74,7 @@ def view_tasks(tasks):
         status = "[DONE]" if task["completed"] else "[ ]"
         print(f"{status} {i}. {task['description']} (ID: {task['id']})")
     print("======================================")
+    input("Press Enter to continue...")
 
 def find_task_by_id(tasks, task_id):
     for task in tasks:
@@ -74,6 +84,7 @@ def find_task_by_id(tasks, task_id):
 
 def mark_complete(tasks):
     """Marks a task as complete."""
+    clear_screen()
     view_tasks(tasks)
     task_id = input("Enter the ID of the task to mark as complete: ").strip()
     task = find_task_by_id(tasks, task_id)
@@ -86,9 +97,11 @@ def mark_complete(tasks):
             print("Task marked as complete.")
     else:
         print("Task ID not found.")
+    input("Press Enter to continue...")
 
 def delete_task(tasks):
     """Deletes a task by ID."""
+    clear_screen()
     view_tasks(tasks)
     task_id = input("Enter the ID of the task to delete: ").strip()
     task = find_task_by_id(tasks, task_id)
@@ -98,9 +111,11 @@ def delete_task(tasks):
         print("Task deleted.")
     else:
         print("Task ID not found.")
+    input("Press Enter to continue...")
 
 def edit_task(tasks):
     """Edit a task's description."""
+    clear_screen()
     view_tasks(tasks)
     task_id = input("Enter the ID of the task to edit: ").strip()
     task = find_task_by_id(tasks, task_id)
@@ -114,6 +129,7 @@ def edit_task(tasks):
             print("Description cannot be empty.")
     else:
         print("Task ID not found.")
+    input("Press Enter to continue...")
 
 # --- Main Menu ---
 
@@ -132,6 +148,7 @@ def main_menu():
     )
 
     while True:
+        clear_screen()
         print(menu)
         choice = input("Enter your choice (1-6): ").strip()
 
@@ -150,6 +167,7 @@ def main_menu():
             break
         else:
             print("Invalid choice. Please enter a number between 1 and 6.")
+            input("Press Enter to continue...")
 
 # --- Main script execution ---
 if __name__ == "__main__":
