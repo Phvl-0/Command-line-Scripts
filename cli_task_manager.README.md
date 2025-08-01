@@ -1,4 +1,3 @@
-Here’s a detailed README for your cli_task_manager.py script:
 
 ---
 
