@@ -1,25 +1,39 @@
-System Automation & Maintenance Script
-This repository contains a simple yet effective Bash script designed to automate routine system maintenance tasks on a GNU/Linux system. This project showcases proficiency in Bash scripting for system administration, a key skill for DevOps and system-oriented roles.
 
-Features
-System Updates: Automatically updates the package list and installs new software versions.
+## README for `system_maintenance.sh`
 
-System Cleanup: Removes outdated packages and clears the system cache to free up disk space.
+# System Automation & Maintenance Script
 
-Automated Backup: Creates a compressed .tar.gz backup of a specified directory, which can be configured by the user.
+Automates essential maintenance tasks for Debian/Ubuntu-based systems.
 
-Usage
-Clone the repository:
+## Features
+- Updates package lists and upgrades all packages (`apt-get update` & `apt-get upgrade`)
+- Cleans up unused packages and log files
+- Backs up a specified directory (`/var/log` by default) to `/tmp` with a timestamp
 
-git clone https://github.com/Phvl-0/system-maintenance-script
-cd system-maintenance-script
+## Usage
 
-Make the script executable:
-
+```bash
 chmod +x system_maintenance.sh
-
-Run the script with sudo:
-
 sudo ./system_maintenance.sh
+```
 
-Note: The script requires sudo privileges to perform updates and cleanup tasks. You can edit the BACKUP_DIR and BACKUP_DEST variables within the script to customize the backup process.
+## Customization
+
+- To change the directory to back up, edit `BACKUP_DIR` in the script.
+- To change the backup destination, edit `BACKUP_DEST`.
+
+## Requirements
+
+- Linux system with apt package manager
+- Run as root (`sudo` required)
+
+## Output
+
+- Backup file created in `/tmp` named like `system_backup_YYYY-MM-DD_HH-MM-SS.tar.gz`
+
+## Notes
+
+- Old logs (`/var/log/*.gz`) are deleted as part of cleanup.
+- Script must be run with sudo for all operations.
+
+---
