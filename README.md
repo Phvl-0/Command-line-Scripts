@@ -16,7 +16,7 @@ A collection of useful command-line scripts for everyday system tasks, automatio
 
 # Log Analysis & Reporting Tool
 
-This repository contains a simple Python script for analyzing log files via the command line. It’s useful for quickly finding and summarizing occurrences of key log messages (like `ERROR`, `WARNING`, `INFO`)—making it a practical tool for system monitoring, debugging, and more.
+This is a simple Python script for analyzing log files via the command line. It’s useful for quickly finding and summarizing occurrences of key log messages (like `ERROR`, `WARNING`, `INFO`)—making it a practical tool for system monitoring, debugging, and more.
 
 ## Features
 
